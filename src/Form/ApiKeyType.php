@@ -13,8 +13,8 @@ class ApiKeyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('apiKey', PasswordType::class)
-            ->add('submitApiKey', SubmitType::class)
+            ->add('apiKey', PasswordType::class, ['label'=>false])
+            ->add('submitApiKey', SubmitType::class, ['label'=>false])
         ;
 
     }
