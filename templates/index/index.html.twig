@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello IndexController!{% endblock %}
+{% block title %}{{title}}{% endblock %}
 
 {% block body %}
 <style>
@@ -21,10 +21,11 @@
     </span>
     <form class="d-flex">
        {{ form_start(ApiKeyType) }}
+       {{ form_errors(ConverterType) }}
           
             {{ form_row(ApiKeyType.apiKey, {'attr': {'class': 'form-control me-2','placeholder':'Insert your API key'}}) }}
             
-            {{ form_row(ApiKeyType.submitApiKey, {'attr': {'class': ' btn btn-outline-success'}, 'label': 'Confirm' }) }}
+            {{ form_row(ApiKeyType.submit, {'attr': {'class': ' btn btn-outline-success'}, 'label': 'Confirm' }) }}
   
         {{ form_end(ApiKeyType) }}
     </form>
@@ -35,12 +36,12 @@
    
     <div class="row align-items-center">
     
-        <div class="col-lg-5 border border-1 rounded-3 bg-light">
+        <div class="col-lg-5 border border-1 rounded-3 bg-light" >
             {{ form_start(ConverterType) }}
             {{ form_errors(ConverterType) }}
             <div class="mb-3 row align-items-center">
             <div class="col-lg-12 text-center ">
-            <p class="h2">Currency Converter</p>
+            <p class="h2" ">Currency Converter</p>
             </div>
             </div>
             <div class="mb-3 row align-items-center">
@@ -65,12 +66,12 @@
             {{ form_end(ConverterType) }}
         </div>
     
-        <div class="col-lg-5 offset-lg-2 border border-1 rounded-3 bg-light">
+        <div class="col-lg-5 offset-lg-2 border border-1 rounded-3 bg-light ">
             {{ form_start(CheckGrowthType) }}
             {{ form_errors(CheckGrowthType) }}
             <div class="mb-3 row align-items-center">
             <div class="col-lg-12 text-center">
-            <p class="h2">Check Currency Growth</p>
+            <p class="h2" ">Check Currency Growth</p>
             </div>
             </div>
             <div class="mb-3 row">
