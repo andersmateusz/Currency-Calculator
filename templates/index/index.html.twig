@@ -85,7 +85,19 @@
                     {{pastDate1}} : 1 {{pastCode1}} = {{pastResult1}} {{pastCode2}}</br>
                     {{pastDate2}} : 1 {{pastCode1}} = {{pastResult2}} {{pastCode2}}
                     </p>
-                    <p class="h2 text-center">Change: {{percent}}%</p>
+                    <p class="h2 text-center">Change: <span
+                    {% if isGrowing==1 %}
+                    style="color:green">+{{percent}}%</span>
+                    {% elseif isGrowing==2 %}
+                    style="color:red">{{percent}}%</span>
+                    {% endif %}
+                    
+                    {% if isGrowing==1 %}
+                    <img src="up48.png">
+                    {% elseif isGrowing==2 %}
+                    <img src="down48.png">
+                    {% endif %}
+                    </p>
                 </div>
             </div>
             <div class="mb-3 row align-items-center">
@@ -117,7 +129,7 @@
                 </div>
                 <div class="row align-items-end">
                     <div class="col-lg-12 text-left ">
-                        <p class="h5">Check Currency Exchange Rate Growth</p>
+                        <p class="h5">Check Currency Exchange Rate Change</p>
                     </div>
                 </div>
             {{ form_end(CheckGrowthType) }}

@@ -87,8 +87,8 @@ class CurrencyManager
 		$result2=round($result2, 4 , PHP_ROUND_HALF_UP);
         $percent=($result2-$result1)/$result2*100;
 		$percent=round($percent, 4 , PHP_ROUND_HALF_UP);
-		if($percent>0){$isGrowing=true;}
-		elseif($percent<0){$isGrowing=false;}
+		if($percent>0){$isGrowing=1;}
+		elseif($percent<0){$isGrowing=2;}
 		else{$isGrowing=null;};
 		return [
 				'date1'=>$date1,

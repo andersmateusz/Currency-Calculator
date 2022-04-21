@@ -17,10 +17,13 @@ class IndexController extends AbstractController
     #[Route('/', name: 'app_index')]
     public function index(Request $request): Response
     {
-        
         $manager=new CurrencyManager('1535a8ffed9a203d2b92a107a95d4ffa');
         $convertResult=['code1'=>null, 'code2'=>null,'date'=>null, 'result'=>null, 'value'=>null];
-        $equal=null;
+         $equal=null;
+    
+        
+       
+        
         $checkResult=[
         'date1'=>null,
         'date2'=>null, 
@@ -31,6 +34,7 @@ class IndexController extends AbstractController
         'percent'=>null,
         'isGrowing'=>null
         ];
+        
         $apiForm=$this->createForm(ApiKeyType::class, null, [
                 'method'=>'POST',
         ]);
@@ -62,10 +66,11 @@ class IndexController extends AbstractController
         
         if($checkerForm->isSubmitted() && $checkerForm->isValid()){
             $checkerData=($checkerForm->getData());
-            dump($checkerData);
+            dump($convertResult);
             $checkResult=$manager->CompareCurrency($checkerData['firstDate'],$checkerData['secondDate'], $checkerData['first_currency'], $checkerData['second_currency']);
          };
-
+         dump($checkResult);
+        dump($convertResult);
         return $this->render('index/index.html.twig', [
             'controller_name' => 'IndexController',
             'title' => 'Currency Calculator',
@@ -85,6 +90,7 @@ class IndexController extends AbstractController
              'pastResult2'=>$checkResult['result2'],
              'percent'=>$checkResult['percent'],
              'equal'=>$equal,
+             'isGrowing'=>$checkResult['isGrowing'],
         ]);
     }
 
