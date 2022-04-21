@@ -14,7 +14,7 @@ class ApiKeyType extends AbstractType
     {
         $builder
             ->add('apiKey', TextType::class, ['label'=>false])
-            ->add('submit', SubmitType::class, ['label'=>false])
+            ->add('submit', SubmitType::class, array('label'=>false))
         ;
 
     }

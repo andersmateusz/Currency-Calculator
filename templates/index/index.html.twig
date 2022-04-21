@@ -20,11 +20,9 @@
     Get your API key for free at <a href="https://exchangeratesapi.io">exchangeratesapi.io</a>.
     </span>
     <form class="d-flex">
-       {{ form_start(ApiKeyType) }}
-       {{ form_errors(ConverterType) }}
-          
+       {{ form_start(ApiKeyType, {'method': 'POST'}) }}
+       {{ form_errors(ApiKeyType) }}
             {{ form_row(ApiKeyType.apiKey, {'attr': {'class': 'form-control me-2','placeholder':'Insert your API key'}}) }}
-            
             {{ form_row(ApiKeyType.submit, {'attr': {'class': ' btn btn-outline-success'}, 'label': 'Confirm' }) }}
   
         {{ form_end(ApiKeyType) }}
@@ -35,18 +33,18 @@
 <div class="container" style="float:center">
    
     <div class="row align-items-center">
-    
         <div class="col-lg-5 border border-1 rounded-3 bg-light" >
-            {{ form_start(ConverterType) }}
-            {{ form_errors(ConverterType) }}
+            {{ form_start(ConverterType, {'attr':{'novalidate':true}}) }}
             <div class="mb-3 row align-items-center">
-            <div class="col-lg-12 text-center ">
-            <p class="h2" ">Currency Converter</p>
+            <div class="col-lg-12 text-left ">
+            <p class="text-right">{{latestDate}}</p>
+            <p class="h4">{{latestValue}} {{latestCode1}} {{equal}} </p>
+            <p class="h2 text-center">{{latestResult}} {{latestCode2}}</p>
             </div>
             </div>
             <div class="mb-3 row align-items-center">
                 <div class="col-lg-6">
-                    {{ form_label(ConverterType.value, 'Value:') }}
+                    {{ form_label(ConverterType.value, 'Money Amount:') }}
                     {{ form_row(ConverterType.value, {'attr': {'class': ' form-control'}})  }}
                 </div>
                 <div class="col-lg-6">
@@ -63,19 +61,35 @@
                     {{ form_row(ConverterType.submit, {'attr': {'class': ' btn btn-outline-success'}, 'label': 'Convert' }) }}
                 </div>
             </div>
+                <div class="row align-items-center">
+                    <div class="col-lg-12 text-left ">
+                        {{ form_errors(ConverterType) }}
+                    </div>
+                </div>
+                <div class="row align-items-end">
+                    <div class="col-lg-12 text-left ">
+                        <p class="h5">Currency Converter</p>
+                    </div>
+                </div>
+                
             {{ form_end(ConverterType) }}
         </div>
     
         <div class="col-lg-5 offset-lg-2 border border-1 rounded-3 bg-light ">
             {{ form_start(CheckGrowthType) }}
+            
             {{ form_errors(CheckGrowthType) }}
             <div class="mb-3 row align-items-center">
-            <div class="col-lg-12 text-center">
-            <p class="h2" ">Check Currency Growth</p>
+                <div class="col-lg-12 text-left ">
+                    <p>
+                    {{pastDate1}} : 1 {{pastCode1}} = {{pastResult1}} {{pastCode2}}</br>
+                    {{pastDate2}} : 1 {{pastCode1}} = {{pastResult2}} {{pastCode2}}
+                    </p>
+                    <p class="h2 text-center">Change: {{percent}}%</p>
+                </div>
             </div>
-            </div>
-            <div class="mb-3 row">
-                <div class="mb-3 row">
+            <div class="mb-3 row align-items-center">
+                <div class="mb-3 row align-items-center">
                     <div class="col-lg-6">
                         {{ form_label(CheckGrowthType.firstDate, 'Start Date:') }}
                         {{ form_row(CheckGrowthType.firstDate, {'attr': {'class': 'form-control'}}) }}
@@ -85,26 +99,32 @@
                         {{ form_row(CheckGrowthType.secondDate, {'attr': {'class': 'form-control'}}) }}
                     </div>
                 </div>
-                <div class="mb-3 row">
+                <div class="mb-3 row align-items-center">
                     <div class="col-lg-6">
                         {{ form_label(CheckGrowthType.first_currency, 'First Currency:') }}
                         {{ form_row(CheckGrowthType.first_currency, {'attr': {'class': 'form-select'}}) }}
                        
                     </div>
                     <div class="col-lg-6">
-                    {{ form_label(CheckGrowthType.second_currency, 'Second Currency') }}
+                    {{ form_label(CheckGrowthType.second_currency, 'Second Currency:') }}
                             {{ form_row(CheckGrowthType.second_currency, {'attr': {'class': 'form-select'}}) }}
                     </div>
                 </div>
-                <div class="mb-3 row ">
+                <div class="mb-3 row align-items-center">
                     <div class"col-lg-6 " >
                         {{ form_row(CheckGrowthType.submit, {'attr': {'class': ' btn btn-outline-success'}, 'label': 'Calculate' }) }}
+                    </div>
+                </div>
+                <div class="row align-items-end">
+                    <div class="col-lg-12 text-left ">
+                        <p class="h5">Check Currency Exchange Rate Growth</p>
                     </div>
                 </div>
             {{ form_end(CheckGrowthType) }}
         </div>
 
 </div>
+
 {% endblock %}
  
 
