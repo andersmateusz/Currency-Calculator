@@ -78,7 +78,7 @@
         </div>
     
         <div class="col-lg-5 offset-lg-2 border border-1 rounded-3 bg-light ">
-            {{ form_start(CheckGrowthType) }}
+            {{ form_start(CheckGrowthType, {'attr': {'novalidate': 'novalidate'}}) }}
             
             {{ form_errors(CheckGrowthType) }}
             <div class="mb-3 row align-items-center">

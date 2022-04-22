@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use App\Entity\CurrencyManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\Checker;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class CheckGrowthType extends AbstractType
@@ -43,6 +44,7 @@ class CheckGrowthType extends AbstractType
                         'USD (United States Dollar)'=>'USD',
                         'EUR (Euro)'=>'EUR',
                         'PLN  (Polish Zloty)'=>'PLN',
+                        'Test Validation'=> 'TestingValidation',
                     ],
                         'ABC...'=>$symbols,
                 ],
@@ -56,6 +58,7 @@ class CheckGrowthType extends AbstractType
                         'USD (United States Dollar)'=>'USD',
                         'EUR (Euro)'=>'EUR',
                         'PLN  (Polish Zloty)'=>'PLN',
+                        'Test Validation'=> 'TestingValidation',
                     ],
                         'ABC...'=>$symbols,
                 ],

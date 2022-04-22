@@ -24,7 +24,6 @@ class ConverterType extends AbstractType
             $value=$key." (".$value.")";
         }
         $symbols=array_flip($symbols);
-        dump($symbols);
         $builder
         ->add('value', MoneyType::class, [
             'label' =>false,
@@ -38,9 +37,10 @@ class ConverterType extends AbstractType
                     'USD (United States Dollar)'=>'USD',
                     'EUR (Euro)'=>'EUR',
                     'PLN  (Polish Zloty)'=>'PLN',
+                    'Test Validation'=> 'TestingValidation',
+                     ], 
+                     'ABC'=>$symbols,
                 ],
-                    'ABC...'=>$symbols,
-            ],
             'label'=>false,
             'placeholder'=>'Select Currency',
         ])
@@ -50,8 +50,9 @@ class ConverterType extends AbstractType
                     'USD (United States Dollar)'=>'USD',
                     'EUR (Euro)'=>'EUR',
                     'PLN  (Polish Zloty)'=>'PLN',
-                ],
-                    'ABC...'=>$symbols,
+                    'Test Validation'=> 'TestingValidation',
+                ], 'ABC'=>$symbols,
+                    
             ],
             'label'=>false,
             'placeholder'=>'Select Currency',
