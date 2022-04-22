@@ -19,14 +19,16 @@
     <span class="navbar-text">
     Get your API key for free at <a href="https://exchangeratesapi.io">exchangeratesapi.io</a>.
     </span>
-    <form class="d-flex">
-       {{ form_start(ApiKeyType, {'method': 'POST'}) }}
+    {#
+    <div>
+       {{ form_start(ApiKeyType, {'attr':{'class': 'd-flex'}}) }}
        {{ form_errors(ApiKeyType) }}
             {{ form_row(ApiKeyType.apiKey, {'attr': {'class': 'form-control me-2','placeholder':'Insert your API key'}}) }}
             {{ form_row(ApiKeyType.submit, {'attr': {'class': ' btn btn-outline-success'}, 'label': 'Confirm' }) }}
   
         {{ form_end(ApiKeyType) }}
-    </form>
+    </div>
+    #}
     </div>  
 </nav>
 </br></br></br></br></br></br></br></br>
