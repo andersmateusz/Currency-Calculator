@@ -5,6 +5,7 @@ class CurrencyManager
     
     function __construct($apiKey)
     {
+		$_POST['apiKey']=$apiKey;
         $this->apiKey=$apiKey;
 		$this->exchangeRates=null;
 		$this->success=null;
@@ -15,6 +16,18 @@ class CurrencyManager
 		
     }
 
+	public function TryConnection()
+	{
+		  // Initialize CURL:
+		  $this->ch = curl_init('http://api.exchangeratesapi.io/v1/'.'latest'.'?access_key='.$this->apiKey);
+		  curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
+		  // Store the data:
+		  $this->json = curl_exec($this->ch);
+		  curl_close($this->ch);
+		  // Decode JSON response:
+		  $this->exchangeRates=json_decode($this->json, true);
+		  return $this->exchangeRates;
+	}
     public function Convert($value, $code1, $code2):array
     {
 		return array(

@@ -8,13 +8,15 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use App\Entity\CurrencyManager;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Checker;
 
 
 class CheckGrowthType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $manager= new CurrencyManager("1535a8ffed9a203d2b92a107a95d4ffa");
+        $manager= new CurrencyManager($_POST['apiKey']);
         $symbols=($manager->getSymbols())['symbols'];
         foreach($symbols as $key=>&$value)
         {
@@ -22,12 +24,12 @@ class CheckGrowthType extends AbstractType
         }
         $symbols=array_flip($symbols);
         $builder
-            ->add('firstDate', DateType::class, array(
+            ->add('startDate', DateType::class, array(
                 'label' => false,
                 'widget' => 'single_text',
                 'input'=>'string',
             ))
-            ->add('secondDate', DateType::class, [
+            ->add('endDate', DateType::class, [
                 'label' => false,
                 'widget'=>'single_text',
                 'input'=>'string',
@@ -35,7 +37,7 @@ class CheckGrowthType extends AbstractType
                 
 
             ])
-            ->add('first_currency', ChoiceType::class, [
+            ->add('firstCurrency', ChoiceType::class, [
                 'choices'=> [
                     'Popular' =>[
                         'USD (United States Dollar)'=>'USD',
@@ -48,7 +50,7 @@ class CheckGrowthType extends AbstractType
                 'placeholder'=>'Select Currency',
 
             ])
-            ->add('second_currency', ChoiceType::class, [
+            ->add('secondCurrency', ChoiceType::class, [
                 'choices'=> [
                     'Popular' =>[
                         'USD (United States Dollar)'=>'USD',
@@ -63,6 +65,12 @@ class CheckGrowthType extends AbstractType
             ->add('submit', SubmitType::class, array('label' => false))
         ;
         
-
+        
+    }
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Checker::class,
+        ]);
     }
 }

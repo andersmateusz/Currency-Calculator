@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-
+use App\Entity\Checker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,31 +11,24 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\ConverterType;
 use App\Form\CheckGrowthType;
 use App\Entity\CurrencyManager;
+use App\Entity\Converter;
+
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
 class IndexController extends AbstractController
 {
+    
     #[Route('/', name: 'app_index')]
     public function index(Request $request): Response
     {
         $manager=new CurrencyManager('1535a8ffed9a203d2b92a107a95d4ffa'); //Insert your API key here
-        //And also in CheckGrowthType.php and ConverterType.php
-        $convertResult=[
-            'code1'=>null, 
-            'code2'=>null,
-            'date'=>null, 
-            'result'=>null, 
-            'value'=>null];
-        $equal=null;
-        $checkResult=[
-        'date1'=>null,
-        'date2'=>null, 
-        'code1'=>null,
-        'code2'=>null,
-        'result1'=>null,
-        'result2'=>null,
-        'percent'=>null,
-        'isGrowing'=>null
-        ];
+        //And also in CheckGrowthType.php line 17 and ConverterType.php line 15
+        $try['error']=null;
+        $try=$manager->TryConnection();
+        if (isset($try['error']))
+        {
+        throw $this->createNotFoundException(implode('|',$try['error']));
+        }
         /*
         // Insert your API key on the page. Not working.
         $apiForm=$this->createForm(ApiKeyType::class);
@@ -47,28 +40,43 @@ class IndexController extends AbstractController
         */
         /////////////////////////////////////////////////////////////////////////////////////////
         //Converter Form
-        $converterForm=$this->createForm(ConverterType::class);
+        $converter=new Converter();
+        $converter->setFirstCurrency('EUR');
+        $converter->setSecondCurrency('USD');
+        $converter->setValue(1);
+        $manager->UpdateLatest();
+        $convertResult=$manager->Convert($converter->getValue(),$converter->getFirstCurrency(), $converter->getSecondCurrency());
+        $equal="=";
+        $converterForm=$this->createForm(ConverterType::class, $converter);
         $converterForm->handleRequest($request);
         if($converterForm->isSubmitted() && $converterForm->isValid()){
-            $converterData=($converterForm->getData());
-            $manager->UpdateLatest();
-            $convertResult=$manager->Convert($converterData['value'], $converterData['first_currency'], $converterData['second_currency']);
-            $equal="=";
+            $converterForm->getData();
+            $convertResult=$manager->Convert($converter->getValue(),$converter->getFirstCurrency(), $converter->getSecondCurrency());
          };
         /////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////
         //Check Currency Rate Growth Form
-        $checkerForm=$this->createForm(CheckGrowthType::class);
+        $checker=new Checker();
+        $checker->setFirstCurrency('EUR');
+        $checker->setSecondCurrency('USD');
+        $checker->setStartDate('2020-01-10');
+        $checker->setEndDate('2022-01-10');
+        $checkerForm=$this->createForm(CheckGrowthType::class, $checker);
+        $checkResult=$manager->CompareCurrency(
+            $checker->getStartDate(), 
+            $checker->getEndDate(),
+            $checker->getFirstCurrency(),
+            $checker->getSecondCurrency(), 
+        );
         $checkerForm->handleRequest($request);
         if($checkerForm->isSubmitted() && $checkerForm->isValid()){
             $checkerData=($checkerForm->getData());
-            dump($convertResult);
             $checkResult=$manager->CompareCurrency(
-                $checkerData['firstDate'],
-                $checkerData['secondDate'], 
-                $checkerData['first_currency'], 
-                $checkerData['second_currency'
-            ]);
+                $checker->getStartDate(), 
+                $checker->getEndDate(),
+                $checker->getFirstCurrency(),
+                $checker->getSecondCurrency(), 
+            );
          };
         /////////////////////////////////////////////////////////////////////////////////////////
         return $this->render('index/index.html.twig', [
