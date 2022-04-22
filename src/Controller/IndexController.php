@@ -7,22 +7,40 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-//use App\Form\ApiKeyType;
+use App\Form\ApiKeyType;
 use App\Form\ConverterType;
 use App\Form\CheckGrowthType;
 use App\Entity\CurrencyManager;
 use App\Entity\Converter;
+use App\Entity\ApiKey;
 
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
 class IndexController extends AbstractController
 {
-    
     #[Route('/', name: 'app_index')]
-    public function index(Request $request): Response
+    public function index(Request $request):Response
     {
-        $manager=new CurrencyManager('1535a8ffed9a203d2b92a107a95d4ffa'); //Insert your API key here
-        //And also in CheckGrowthType.php line 17 and ConverterType.php line 15
+        $apiKey=new ApiKey();
+        $apiKey->setApiKey(null);
+        $apiForm=$this->createForm(ApiKeyType::class,$apiKey);
+        $apiForm->handleRequest($request);
+        if($apiForm->isSubmitted() && $apiForm->isValid())
+        {
+            $apiKey=$apiForm->getData();
+            dump($apiKey);
+            return $this->redirectToRoute('app_app',['apiKey'=>$apiKey->getApiKey()]);
+           
+        };
+        return $this->renderForm('index/api.html.twig', [
+            'apiForm'=>$apiForm,
+        ]);
+        
+    }
+    #[Route('/{apiKey}', name: 'app_app')]
+    public function app(Request $request, $apiKey): Response
+    {
+        $manager=new CurrencyManager($apiKey);
         $try['error']=null;
         $try=$manager->TryConnection();
         if (isset($try['error']))
@@ -46,7 +64,6 @@ class IndexController extends AbstractController
         $converter->setValue(1);
         $manager->UpdateLatest();
         $convertResult=$manager->Convert($converter->getValue(),$converter->getFirstCurrency(), $converter->getSecondCurrency());
-        $equal="=";
         $converterForm=$this->createForm(ConverterType::class, $converter);
         $converterForm->handleRequest($request);
         if($converterForm->isSubmitted() && $converterForm->isValid()){
@@ -70,7 +87,7 @@ class IndexController extends AbstractController
         );
         $checkerForm->handleRequest($request);
         if($checkerForm->isSubmitted() && $checkerForm->isValid()){
-            $checkerData=($checkerForm->getData());
+            $checkerForm->getData();
             $checkResult=$manager->CompareCurrency(
                 $checker->getStartDate(), 
                 $checker->getEndDate(),
@@ -97,9 +114,8 @@ class IndexController extends AbstractController
              'pastResult1'=>$checkResult['result1'],
              'pastResult2'=>$checkResult['result2'],
              'percent'=>$checkResult['percent'],
-             'equal'=>$equal,
              'isGrowing'=>$checkResult['isGrowing'],
         ]);
     }
-
+    
 }

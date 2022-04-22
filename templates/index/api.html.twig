@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Currency Calculator{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+
+
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">   
+     <a class="navbar-brand" href="#">
+      <img src="currency-exchange.svg" alt="" width="50" height="50">
+    CurrencyCalculator
+    </a>
+    <span class="navbar-text">
+    Get your API key for free at <a href="https://exchangeratesapi.io" target="_blank">exchangeratesapi.io</a>.
+    </span>
+    
+    <div>
+       {{ form_start(apiForm, {'attr':{'class': 'd-flex', 'novalidate': 'novalidate'}}) }}
+       {{ form_errors(apiForm) }}
+            {{ form_row(apiForm.apiKey, {'attr': {'class': 'form-control','placeholder':'Insert your API key'}}) }}
+            {{ form_row(apiForm.submit, {'attr': {'class': ' btn btn-outline-success'}, 'label': 'Confirm' }) }}
+  
+        {{ form_end(apiForm) }}
+    </div>
+    
+    </div>  
+</nav>
+<div class="row">   
+    <div class="col lg-12 alert alert-danger text-center">
+    Insert your API key first!
+    </div>
+</div>
+{% endblock %}
+ 
+
+ 
