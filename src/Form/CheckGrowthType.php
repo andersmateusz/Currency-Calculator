@@ -17,8 +17,7 @@ class CheckGrowthType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $manager= new CurrencyManager($_POST['apiKey']);
-        $symbols=($manager->getSymbols())['symbols'];
+        $symbols=$_POST['symbols'];
         foreach($symbols as $key=>&$value)
         {
             $value=$key." (".$value.")";

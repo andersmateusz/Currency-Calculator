@@ -41,21 +41,7 @@ class IndexController extends AbstractController
     public function app(Request $request, $apiKey): Response
     {
         $manager=new CurrencyManager($apiKey);
-        $try['error']=null;
-        $try=$manager->TryConnection();
-        if (isset($try['error']))
-        {
-        throw $this->createNotFoundException(implode('|',$try['error']));
-        }
-        /*
-        // Insert your API key on the page. Not working.
-        $apiForm=$this->createForm(ApiKeyType::class);
-        $apiForm->handleRequest($request);
-        if($apiForm->isSubmitted()&&$apiForm->isValid())
-        {
-           $apiKey=($apiForm->getData())['apiKey'];
-        };
-        */
+        $_POST['symbols']=($manager->getSymbols())['symbols'];
         /////////////////////////////////////////////////////////////////////////////////////////
         //Converter Form
         $converter=new Converter();

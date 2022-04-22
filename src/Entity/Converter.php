@@ -58,8 +58,7 @@ class Converter
     }
     public static function getSymbols()
     {
-        $manager= new CurrencyManager($_POST['apiKey']);
-        $symbols=($manager->getSymbols())['symbols'];
+        $symbols=$_POST['symbols'];
         foreach($symbols as $key=>&$value)
         {
             $value=$key." (".$value.")";

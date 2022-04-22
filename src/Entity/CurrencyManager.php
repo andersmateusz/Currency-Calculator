@@ -5,7 +5,6 @@ class CurrencyManager
     
     function __construct($apiKey)
     {
-		$_POST['apiKey']=$apiKey;
         $this->apiKey=$apiKey;
 		$this->exchangeRates=null;
 		$this->success=null;
@@ -114,6 +113,7 @@ class CurrencyManager
 				'isGrowing'=>$isGrowing
 		];
 	}
+	
 
 	
 
