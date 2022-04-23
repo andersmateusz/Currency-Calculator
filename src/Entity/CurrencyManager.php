@@ -93,12 +93,12 @@ class CurrencyManager
 	{
         $this->UpdatePast($date1);
 		$result1=($this->Convert(1, $code1, $code2))['result'];
-		$result1=round($result1, 4 , PHP_ROUND_HALF_UP);
 		$this->UpdatePast($date2);
 		$result2=($this->Convert(1,$code1,$code2))['result'];
-		$result2=round($result2, 4 , PHP_ROUND_HALF_UP);
-        $percent=($result2-$result1)/$result2*100;
+        $percent=($result2-$result1)/$result1*100;
 		$percent=round($percent, 4 , PHP_ROUND_HALF_UP);
+		$result2=round($result2, 4 , PHP_ROUND_HALF_UP);
+		$result1=round($result1, 4 , PHP_ROUND_HALF_UP);
 		if($percent>0){$isGrowing=1;}
 		elseif($percent<0){$isGrowing=2;}
 		else{$isGrowing=null;};
